@@ -1,0 +1,1 @@
+{"platform":["android"],"fromuserid":"fromuseId1","audience":{"userid":["38"],"is_to_all":false},"message":{"content":"{\"content\":\"1111\",\"extra\":\"aa\"}","objectName":"RC:TxtMsg"},"notification":{"alert":"this is a push","android":{"alert":"您的订单已经被完成","extras":{"id":"1","name":"2"}}}}

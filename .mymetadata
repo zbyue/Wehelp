@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="wehelp"
+  id="myeclipse.1519830449719"
+  context-root="/wehelp"
+  j2ee-spec="1.7"
+  archive="wehelp.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

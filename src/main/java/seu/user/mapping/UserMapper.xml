@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="seu.user.mapping.UserMapper" >
+  <!-- <resultMap id="BaseResultMap" type="manage.pojo.Admin" >
+    <id column="adminid" property="adminid" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+  </resultMap> -->
+  <select id="selectAllUsers" resultType="seu.user.pojo.User" >
+  	select * from user
+  </select>
+  <update id="updateUserState_Approve" parameterType="java.lang.Integer">
+  	update user set STATE = 4 where USERID = #{userid}
+  </update>
+  <update id="updateUserState_Freeze" parameterType="java.lang.Integer">
+  	update user set STATE = 3 where USERID = #{userid}
+  </update>
+
+  <!-- 根据id获取用户信息 -->
+	<select id="findUserById" parameterType="java.lang.Integer" resultType="seu.user.pojo.User">
+		select * from user where USERID = #{userid}
+	</select>	
+<!-- 根据用户名获取用户信息 -->
+	<select id="findUserByUsername" parameterType="java.lang.String" resultType="seu.user.pojo.User">
+		select * from user where USERNAME = #{username}
+	</select>
+<!-- 根据手机号获取用户信息 -->
+	<select id="findUserByPhone" parameterType="java.lang.String" resultType="seu.user.pojo.User">
+		select * from user where PHONE = #{phone}
+	</select>
+	
+	<select id="findUserByNickname" parameterType="java.lang.String" resultType="seu.user.pojo.User">
+		select * from user where PHONE = #{nickname}
+	</select>
+<!-- 自定义条件查询用户列表 -->
+	<select id="findUsersByUsername" parameterType="java.lang.String" 
+			resultType="seu.user.pojo.User">
+	   select * from user where USERNAME like '%${value}%' 
+	</select>
+<!-- 添加用户 -->
+	<insert id="insertUser" parameterType="seu.user.pojo.User">
+	
+	  insert into user(USERID,NICKNAME,USERNAME,PASSWORD,
+	                   ADDRESS,PHONE,STATE,CREDIT) 
+	  values(#{userid},#{nickname},#{username},#{password},
+	         #{address},#{phone},#{state},#{credit})
+	</insert>
+	
+	<update id="modifyCredit" parameterType="java.lang.Integer">
+  	update user set CREDIT = CREDIT-1 where USERID = #{userid}
+  	</update>
+	
+	<update id="modifyImg">
+  	update USER set IMG = #{filepath,jdbcType=VARCHAR} where USERID = #{userid,jdbcType=INTEGER}
+  	</update>
+  	
+  	<update id="modifyUserState3" parameterType="java.lang.Integer">
+  	update user set STATE = 3 where USERID = #{userid} 
+  	</update>
+  	
+  	<select id="getUserCreditById" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  	select CREDIT from user where USERID = #{userid}
+ 	 </select>
+  
+  	<update id="modifyInfo" parameterType="seu.user.pojo.User">
+  		update user set NICKNAME=#{nickname},SEX=#{sex},DESCRIPTION=#{description} where USERID = #{userid}
+  	</update>
+  	
+  	<select id="getUserMoney" resultType="java.lang.Double" parameterType="java.lang.Integer">
+  	select MONEY from user where USERID = #{userid}
+ 	 </select>
+ 	 
+ 	 <update id="addUserMoney">
+  		update user set MONEY=MONEY+#{money} where USERID = #{userid}
+  	</update>
+  	
+  	<update id="reduceUserMoney">
+  		update user set MONEY=MONEY-#{money} where USERID = #{userid}
+  	</update>
+  	
+  	<select id="getUserEvaluationById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select EVALUATION from user where USERID = #{userid}
+	</select>
+	
+	<select id="getUserOrdersCountById" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		select ORDERSCOUNT from user where USERID = #{userid}
+	</select>
+	
+	<update id="setUserEvaluation">
+  		update user set EVALUATION=#{evaluation} where USERID = #{userid}
+  	</update>
+  	
+  	<update id="setOrdersCountById" parameterType="java.lang.Integer">
+  		update user set ORDERSCOUNT=ORDERSCOUNT+1 where USERID = #{userid}
+  	</update>
+  </mapper>

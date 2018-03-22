@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="seu.admin.mapping.AdminMapper" >
+	<select id="selectByUsernameAndPwd" resultType="seu.admin.pojo.Admin" >
+  		select * from administrator where USERNAME = #{username,jdbcType=VARCHAR} and PASSWORD = #{password,jdbcType=VARCHAR}
+  	</select>
+  	<select id="countAllUsers" resultType="java.lang.Integer" >
+  		select count(*) from user 
+  	</select>
+  	<select id="selectAllUsersFromMtoN" parameterType="java.lang.Integer" resultType="seu.user.pojo.User" >
+  		select * from user order by USERID limit #{m}, #{n}
+  	</select>
+  	<select id="selectUserById" parameterType="java.lang.Integer" resultType="seu.user.pojo.User" >
+  		select * from user where USERID = #{id} 
+  	</select>
+  	<select id="selectUserByName" resultType="seu.user.pojo.User" >
+  		select * from user where USERNAME = #{name,jdbcType=VARCHAR} 
+  	</select>
+  	<select id="selectUsersByState" parameterType="java.lang.Integer" resultType="seu.user.pojo.User" >
+  		select * from user where STATE = #{state} 
+  	</select>
+  	<select id="selectUsersByCredit" parameterType="java.lang.Integer" resultType="seu.user.pojo.User" >
+  		<![CDATA[select * from user where CREDIT <= #{credit} ]]>
+  	</select>
+  	
+  	<select id="maxId" resultType="java.lang.Integer">
+  		select max(USERID) from user
+  	</select>
+  	
+  	<delete id="deleteUser" parameterType="java.lang.Integer">
+  		delete from user where USERID = #{id}
+  	</delete>
+  	
+  	<update id="updateUser" >
+  	    update user set USERNAME=#{name,jdbcType=VARCHAR}, PASSWORD=#{password,jdbcType=VARCHAR},
+  	    PHONE=#{phone,jdbcType=VARCHAR}, ADDRESS=#{address,jdbcType=VARCHAR},
+  	    SEX=#{sex,jdbcType=VARCHAR},STATE=#{state,jdbcType=INTEGER},CREDIT=#{credit,jdbcType=INTEGER},
+  	    MONEY=#{money,jdbcType=DOUBLE},EVALUATION=#{evaluation,jdbcType=INTEGER},
+  	    ORDERSCOUNT=#{orderscount,jdbcType=INTEGER},DESCRIPTION=#{description,jdbcType=VARCHAR}
+  	    where USERID=#{id,jdbcType=INTEGER}
+  	</update>
+  	<insert id="insertUser" >
+  	    insert into user (USERID,USERNAME,PASSWORD,PHONE,ADDRESS,SEX,STATE,CREDIT,ORDERSCOUNT,DESCRIPTION) 
+  	    values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+  	    #{phone,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{state,jdbcType=INTEGER},
+  	    #{credit,jdbcType=INTEGER},#{money,jdbcType=DOUBLE},#{evaluation,jdbcType=INTEGER},
+  	    #{orderscount,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
+  	</insert>
+  	
+  	<select id="countAllOrders" resultType="java.lang.Integer" >
+  		select count(*) from orders 
+  	</select>
+  	<select id="selectAllOrdersFromMtoN" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders" >
+  		select * from orders order by ORDERID limit #{m}, #{n}
+  	</select>
+  	<select id="selectOrderById" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders" >
+  		select * from orders where ORDERID = #{id} 
+  	</select>
+  	<select id="selectOrdersByState" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders" >
+  		select * from orders where STATE = #{state} 
+  	</select>
+  	<select id="selectOrdersByType" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders" >
+  		select * from orders where TYPE = #{type} 
+  	</select>
+  	<select id="selectOrdersByRsid" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders" >
+  		select * from orders where RELEASER_ID = #{rsid} 
+  	</select>
+  	<select id="selectOrdersByTkid" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders" >
+  		select * from orders where TAKER_ID = #{tkid} 
+  	</select>
+  	<delete id="deleteOrder" parameterType="java.lang.Integer">
+  		delete from orders where ORDERID = #{id}
+  	</delete>
+  	
+  	
+  	
+  	<select id="countAllComplains" resultType="java.lang.Integer" >
+  		select count(*) from complain 
+  	</select>
+  	<select id="selectAllComplainsFromMtoN" parameterType="java.lang.Integer" resultType="seu.complain.pojo.Complain" >
+  		select * from complain order by COMPLAIN_ID limit #{m}, #{n}
+  	</select>
+  	<select id="selectComplainById" parameterType="java.lang.Integer" resultType="seu.complain.pojo.Complain" >
+  		select * from complain where COMPLAIN_ID = #{id} 
+  	</select>
+  	<select id="selectComplainsByState" parameterType="java.lang.Integer" resultType="seu.complain.pojo.Complain" >
+  		select * from complain where STATE = #{state} 
+  	</select>
+  	<select id="selectComplainsByApplierId" parameterType="java.lang.Integer" resultType="seu.complain.pojo.Complain" >
+  		select * from complain where APPLIER_ID = #{caid} 
+  	</select>
+  	<select id="selectComplainsByOrderId" parameterType="java.lang.Integer" resultType="seu.complain.pojo.Complain" >
+  		select * from complain where ORDERID = #{coid} 
+  	</select>
+  	<delete id="deleteComplain" parameterType="java.lang.Integer">
+  		delete from complain where COMPLAIN_ID = #{cid}
+  	</delete>
+  	<update id="updateComplain" parameterType="java.lang.Integer">
+  		update complain set STATE =  #{state} where COMPLAIN_ID = #{cid}
+  	</update>
+  	
+  	<select id="selectRecentComplains" resultType="seu.complain.pojo.Complain">
+  	  	select * from complain where STATE = 0 ORDER BY APPLY_TIME DESC LIMIT 0,5
+  	</select>
+</mapper>

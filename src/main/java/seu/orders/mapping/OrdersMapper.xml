@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="seu.orders.mapping.OrdersMapper" >
+  <select id="selectAllOrders" resultType="seu.orders.pojo.Orders" >
+  	select * from orders
+  </select>
+  
+  <select id="selectByOrdersID" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders">
+  	select * from orders where ORDERID = #{ordersid}
+  </select>
+  
+  <select id="selectFirstOrdersByTimeDesc" resultType="seu.orders.pojo.Orders">
+  	select * from orders where state = 0 order by RELEASETIME desc limit 0,10;
+  </select>
+  
+  <select id="selectOrdersByTimeDesc" resultType="seu.orders.pojo.Orders">
+  	select * from orders where state = 0 order by RELEASETIME desc;
+  </select>
+  
+  <insert id="insertOrders" parameterType="seu.orders.pojo.Orders">
+		
+	  insert into orders(TITLE,REWARD,NICKNAME,RELEASER_ID,
+	                    DESCRIPTION,RELEASETIME,RELEASETIME2,TIME_LIMIT,DEADTIME,DEADLINE,
+	                    ADDRESS,PHONENUMBER,IMGS,RELEASERHEAD,PRIVATERIGHT) 
+	  values(#{title},#{reward},#{nickname},#{releaser_id},
+	         #{description},#{releasetime},#{releasetime2},#{time_limit},#{deadtime},#{deadline},
+	         #{address},#{phonenumber},#{imgs},#{releaserhead},#{privateright})
+ </insert>
+ 
+  <select id="selectOrdersByUserId" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders">
+  	select * from orders where (RELEASER_ID=#{userid} or TAKER_ID=#{userid}) order by RELEASETIME desc;
+  </select>
+  
+ 	<select id="selectAllOrdersState1" resultType="seu.orders.pojo.Orders" >
+  	select * from orders where STATE = 1
+  </select>
+  
+  <update id="modifyOrdersState3" parameterType="java.lang.Integer">
+  	update orders set STATE = 3 where ORDERID = #{ordersid}
+  </update>
+  
+  <update id="modifyOrdersState1">
+  	update orders set STATE = 1,TAKER_ID= #{userid,jdbcType=INTEGER} where ORDERID = #{ordersid,jdbcType=INTEGER} 
+  </update>
+  
+  <select id="getOrderState" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select STATE from orders where ORDERID=#{ordersid}
+  </select>
+  
+  <update id="modifyOrderState4" parameterType="java.lang.Integer">
+  	update orders set STATE = 4 where ORDERID= #{ordersid}
+  </update>
+  
+  <select id="selectAllOrdersState0" resultType="seu.orders.pojo.Orders" >
+  	select * from orders where STATE = 0
+  </select>
+  
+   <update id="modifyOrderState5" parameterType="java.lang.Integer">
+  	update orders set STATE = 5 where ORDERID= #{ordersid}
+  </update>
+  
+  <update id="modifyOrderState2" parameterType="java.lang.Integer">
+  	update orders set STATE = 2 where ORDERID= #{ordersid}
+  </update>
+  
+  <select id="getRewardById" resultType="java.lang.Double" parameterType="java.lang.Integer">
+  	select REWARD from orders where ORDERID = #{ordersid}
+  </select>
+ 
+  <update id="modifyOrderNickname">
+  	update orders set NICKNAME=#{nickname,jdbcType=VARCHAR} where ORDERID= #{ordersid,jdbcType=INTEGER}
+  </update>
+  <update id="modifyOrderReleaserhead">
+  	update orders set RELEASERHEAD=#{releaserhead,jdbcType=VARCHAR} where ORDERID= #{ordersid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByReleaserId" parameterType="java.lang.Integer" resultType="seu.orders.pojo.Orders" >
+  	select * from orders where RELEASER_ID=#{releaser_id}
+  </select>
+  
+  <update id="setPrivateRight" parameterType="java.lang.Integer">
+  	update orders set PRIVATERIGHT=1 where ORDERID = #{ordersid}
+  </update>
+  
+  <update id="setGradeOfOrder" >
+  	update orders set GRADE = #{grade} where ORDERID = #{ordersid}
+  </update>
+ </mapper>
